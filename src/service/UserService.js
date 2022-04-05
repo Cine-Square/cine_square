@@ -4,11 +4,12 @@ import { message } from 'antd';
 
 const AWSAPI = APIService.AWSAPI;
 const LOCALAPI = APIService.LOCALAPI;
+const PROXY = APIService.PROXY;
 
 export default class UserService {
   static async getUserInfo(account, password) {
     const response = await axios.post(
-      `${AWSAPI}/user/signin`,
+      `${PROXY}/user/signin`,
       // `${LOCALAPI}/user/signin`,
       { account, password },
     );
