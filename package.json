@@ -77,5 +77,6 @@
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.1"
-  }
+  },
+  "proxy": "http://cinesquare.yahmedora.com:9096"
 }

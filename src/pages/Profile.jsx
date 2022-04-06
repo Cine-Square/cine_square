@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import FooterTemplate from '../components/FooterTemplate';
-import HeaderTemplate from '../components/HeaderTemplate'
+import HeaderTemplate from '../components/HeaderTemplate';
 import '../pages/profile.scss';
 import { Chart, registerables } from 'chart.js';
 import { Link } from 'react-router-dom';
@@ -10,34 +10,33 @@ import axios from 'axios';
 import APIService from '../service/APIService';
 
 const AWSAPI = APIService.AWSAPI;
-
+const PROXY = APIService.PROXY;
 
 let evaluatedMovieCount = [];
 let evaluatedMovieGrade = [];
 
 export default function Profile() {
-
   const [imgUrl, setImgUrl] = useState(null);
   const imageRef = useRef('');
   const canvasDom = useRef(null);
   const [evaluatedCount, setEvaluatedCount] = useState([]);
   const [evaluatedGrade, setEvaluatedGrade] = useState([]);
   const [totalCount, setTotalCount] = useState();
-  const [evaluatedMovieList, setEvaluatedMovieList] = useState([])
+  const [evaluatedMovieList, setEvaluatedMovieList] = useState([]);
 
-  const account = useSelector(state => state.auth.account);
-  const userName = useSelector(state => state.auth.userName);
+  const account = useSelector((state) => state.auth.account);
+  const userName = useSelector((state) => state.auth.userName);
 
   useEffect(() => {
     async function Evaluated() {
       try {
         const response = await axios({
           method: 'POST',
-          url: `${AWSAPI}/user/gradeList`,
+          url: `${PROXY}/user/gradeList`,
           data: {
-            account: account
+            account: account,
           },
-        })
+        });
         const result = response.data.result;
         evaluatedMovieCount = result.map((v) => +v.count);
         evaluatedMovieGrade = result.map((v) => v.grade + '점');
@@ -45,21 +44,20 @@ export default function Profile() {
         setEvaluatedGrade(evaluatedMovieGrade);
         let a = 0;
         for (let i = 0; i < evaluatedMovieCount.length; i++) {
-          a += evaluatedMovieCount[i]
+          a += evaluatedMovieCount[i];
         }
         setTotalCount(a);
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     }
     Evaluated();
-  }, [account])
-
+  }, [account]);
 
   useEffect(() => {
     const ctx = canvasDom.current.getContext('2d');
     var myChart = new Chart(ctx, {
-      type: "bar",
+      type: 'bar',
       data: {
         labels: evaluatedGrade,
         datasets: [
@@ -68,7 +66,7 @@ export default function Profile() {
             barThickness: 30,
             // minBarLength: 2,
             backgroundColor: '#6100ff',
-            label: "내가 해당 점수로 평가한 영화 갯수",
+            label: '내가 해당 점수로 평가한 영화 갯수',
             data: evaluatedCount,
           },
         ],
@@ -76,7 +74,7 @@ export default function Profile() {
     });
     return () => {
       myChart.destroy();
-    }
+    };
   }, [evaluatedCount, evaluatedGrade]);
 
   Chart.register(...registerables);
@@ -85,33 +83,36 @@ export default function Profile() {
     const fileUrl = e.target.files[0];
     const objectURL = URL.createObjectURL(fileUrl);
     setImgUrl(objectURL);
-  }
+  };
 
   useEffect(() => {
     async function EvaluatedMovies() {
       try {
         const response = await axios({
           method: 'POST',
-          url: `${AWSAPI}/user/userMovieGrade`,
+          url: `${PROXY}/user/userMovieGrade`,
           data: {
-            account: account
-          }
-        })
+            account: account,
+          },
+        });
         const result = response.data.result;
         let movieBox = [];
         // const evaluatedMoviesList = result.map((v, i) => {
         //   return v.movieNm
         // });
         for (let i = 0; i < 5; i++) {
-          movieBox = [...movieBox, { movieNm: result[i].movieNm, movieCd: result[i].movieCd }]
+          movieBox = [
+            ...movieBox,
+            { movieNm: result[i].movieNm, movieCd: result[i].movieCd },
+          ];
         }
         setEvaluatedMovieList(movieBox);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
     EvaluatedMovies();
-  }, [account])
+  }, [account]);
 
   return (
     <>
@@ -124,8 +125,21 @@ export default function Profile() {
             <div className="user-image-wrapper">
               <div className="user-image-box">
                 <label htmlFor="file_upload" className="custom-thumbnail-label">
-                  <input id="file_upload" onChange={hanedleImgChange} ref={imageRef} className="custom-thumbnail-input" type="file" alt="profile-image" aria-label="프로필사진" accept="image/jpeg, image/png, image/jpg, image/webp" required />
-                  <div className="profile-thumb" style={{ "backgroundImage": `url(${imgUrl})` }} />
+                  <input
+                    id="file_upload"
+                    onChange={hanedleImgChange}
+                    ref={imageRef}
+                    className="custom-thumbnail-input"
+                    type="file"
+                    alt="profile-image"
+                    aria-label="프로필사진"
+                    accept="image/jpeg, image/png, image/jpg, image/webp"
+                    required
+                  />
+                  <div
+                    className="profile-thumb"
+                    style={{ backgroundImage: `url(${imgUrl})` }}
+                  />
                 </label>
               </div>
             </div>
@@ -133,11 +147,21 @@ export default function Profile() {
               <form>
                 <div className="profile-name user-profile">
                   <label htmlFor="user_name">이름</label>
-                  <input type="text" id="user_name" placeholder={userName} disabled />
+                  <input
+                    type="text"
+                    id="user_name"
+                    placeholder={userName}
+                    disabled
+                  />
                 </div>
                 <div className="profile-email user-profile">
                   <label htmlFor="user_email">이메일</label>
-                  <input type="text" id="user_email" placeholder={account} disabled />
+                  <input
+                    type="text"
+                    id="user_email"
+                    placeholder={account}
+                    disabled
+                  />
                 </div>
                 {/* <button className="modify">수정하기</button> */}
               </form>
@@ -145,7 +169,6 @@ export default function Profile() {
           </div>
         </div>
         <section>
-
           <div className="profile-full-info">
             <h2 className="a11y-hidden">나의 프로필 상세정보</h2>
             <div className="profile-info-cont1 cont">
@@ -164,30 +187,55 @@ export default function Profile() {
             <div className="profile-info-cont3 cont">
               <h3>영화 선호 국가</h3>
               <ul>
-                <li><p>미국</p><p>20편</p></li>
-                <li><p>영국</p><p>15편</p></li>
-                <li><p>한국</p><p>10편</p></li>
-                <li><p>일본</p><p>5편</p></li>
+                <li>
+                  <p>미국</p>
+                  <p>20편</p>
+                </li>
+                <li>
+                  <p>영국</p>
+                  <p>15편</p>
+                </li>
+                <li>
+                  <p>한국</p>
+                  <p>10편</p>
+                </li>
+                <li>
+                  <p>일본</p>
+                  <p>5편</p>
+                </li>
               </ul>
             </div>
             <div className="profile-info-cont4 cont">
               <h3>영화 선호 장르</h3>
               <ul>
-                <li><p>애니메이션</p><p>20편</p></li>
-                <li><p>멜로</p><p>15편</p></li>
-                <li><p>스릴러</p><p>10편</p></li>
-                <li><p>추리</p><p>5편</p></li>
+                <li>
+                  <p>애니메이션</p>
+                  <p>20편</p>
+                </li>
+                <li>
+                  <p>멜로</p>
+                  <p>15편</p>
+                </li>
+                <li>
+                  <p>스릴러</p>
+                  <p>10편</p>
+                </li>
+                <li>
+                  <p>추리</p>
+                  <p>5편</p>
+                </li>
               </ul>
             </div>
             <div className="profile-info-cont5 cont">
               <h3>내가 평가한 영화</h3>
               <ul>
-                {evaluatedMovieList.map((v) => (
-                  <li>
-                    <p><Link to={`/detail/${v.movieCd}`}>{v.movieNm}</Link></p>
+                {evaluatedMovieList.map((v, i) => (
+                  <li key={i}>
+                    <p>
+                      <Link to={`/detail/${v.movieCd}`}>{v.movieNm}</Link>
+                    </p>
                   </li>
-                ))
-                }
+                ))}
                 {/* <li>
                   <img src="../images/with-god.jpg" alt="신과함께" />
                 </li>
@@ -204,7 +252,9 @@ export default function Profile() {
                   <img src="../images/poupelle.jpg" alt="poupelle" />
                 </li> */}
               </ul>
-              <Link to="/mybooks" className='add'>더보기</Link>
+              <Link to="/mybooks" className="add">
+                더보기
+              </Link>
             </div>
             <div className="profile-info-cont6 cont">
               <h3>마이 컬렉션</h3>
@@ -216,7 +266,10 @@ export default function Profile() {
                   <img src="../images/voyagers.jpg" alt="voyagers" />
                 </li>
                 <li>
-                  <img src="../images/Fast_and_the_Furious.jpg" alt="Fast_and_the_Furious" />
+                  <img
+                    src="../images/Fast_and_the_Furious.jpg"
+                    alt="Fast_and_the_Furious"
+                  />
                 </li>
                 <li>
                   <img src="../images/pipe_line.jpg" alt="pipe_line" />
@@ -225,7 +278,9 @@ export default function Profile() {
                   <img src="../images/poupelle.jpg" alt="poupelle" />
                 </li>
               </ul>
-              <Link to="/mybooks" className='add'>더보기</Link>
+              <Link to="/mybooks" className="add">
+                더보기
+              </Link>
             </div>
           </div>
         </section>
