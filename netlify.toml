@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/proxy/*"
-  to = "http://cinesquare.yahmedora.com:9096/:splat"
+  to = "http://cinesquare.slowtuttle.co.kr:9096/:splat"
   status = 200
   force = true
   
