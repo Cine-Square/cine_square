@@ -14,15 +14,13 @@ import AccountService from '../service/AccountService';
 import CineSuggestion from '../components/CineSuggestion';
 import AverageRanking from '../components/AverageRanking';
 
-
 function Home() {
-
   const dispatch = useDispatch();
   const boxOfficeList = useSelector((state) => state.boxoffice.boxOfficeList);
   const [modalId, setModalId] = useState(0);
-  const token = useSelector(state => state.auth.token);
-  const account = useSelector(state => state.auth.account);
-  const userName = useSelector(state => state.auth.userName);
+  const token = useSelector((state) => state.auth.token);
+  const account = useSelector((state) => state.auth.account);
+  const userName = useSelector((state) => state.auth.userName);
 
   if (token && account) {
     TokenService.save(token);
@@ -44,9 +42,15 @@ function Home() {
     getBoxOfficeList();
   }, [getBoxOfficeList]);
 
-
   return (
     <>
+      {/* <div class="skip_nav">
+        <a href="#mainService">주요 서비스 바로가기</a>
+        <a href="#mainMedia">미디어 정보 바로가기</a>
+        <a href="#mainShopping">쇼핑 바로가기</a>
+        <a href="#mainNotice">공지사항 바로가기</a>
+        <a href="#mainLogin">로그인 바로가기</a>
+      </div> */}
       <HeaderTemplate />
       <main className="home-main">
         <h2 className="a11y-hidden">메인페이지</h2>
@@ -80,10 +84,8 @@ function Home() {
         </section>
       </main>
       <FooterTemplate />
-
     </>
   );
-
 }
 
 export default React.memo(Home);
