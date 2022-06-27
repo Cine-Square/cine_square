@@ -5,9 +5,8 @@
 
 @mixin button-style {
   font-size: 0.9em;
-  // padding: 10px 30px;
   width: 105px;
-  height: 55px;
+  height: 45px;
   border-radius: 5px;
 }
 
@@ -15,21 +14,23 @@ $common-font-size: 0.8em;
 
 .signup-main {
   width: 100%;
+  height: 100vh;
   background-color: #222222;
+  padding-top: 30px;
+  padding-bottom: 30px;
   // position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 100px;
   .signup-wrapper {
-    width: 600px;
-    // height: 1000px;
+    width: 500px;
+    height: 100%;
     background-color: #2d2d2d;
     color: white;
     box-sizing: border-box;
 
     legend {
-      font-size: 2.5em;
+      font-size: 2.2em;
       text-align: center;
       margin-bottom: 40px;
     }
@@ -50,12 +51,12 @@ $common-font-size: 0.8em;
       margin-right: 10px;
       text-align: left;
       width: 260px;
-      height: 55px;
-      font-size: 1.2em;
+      height: 45px;
+      font-size: 1em;
       border-radius: 3px;
     }
     .signup-form {
-      padding: 70px 110px;
+      padding: 30px 85px;
       & > fieldset > div {
         margin-bottom: 25px;
       }
@@ -125,6 +126,9 @@ $common-font-size: 0.8em;
     .terms {
       text-align: center;
       margin-bottom: 50px !important;
+      font-size: 0.9em;
+      letter-spacing: 0.4px;
+
       input {
         width: 20px;
         height: 20px;
@@ -135,11 +139,12 @@ $common-font-size: 0.8em;
       display: flex;
       justify-content: space-between;
       button {
-        font-size: 1.3em;
+        font-size: 1.1em;
         font-weight: bold;
-        width: 175px;
-        height: 55px;
+        width: 150px;
+        height: 45px;
         border-radius: 50px;
+        letter-spacing: 1px;
         &:nth-of-type(1) {
           background-color: #4e4e4e;
         }
