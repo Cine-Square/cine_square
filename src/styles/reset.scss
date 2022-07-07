@@ -10,7 +10,8 @@ main {
   height: 100%;
   padding-top: 64px;
   & > section {
-    width: 980px;
+    // width: 980px;
+    max-width: 980px;
     margin: 0 auto;
   }
 }
