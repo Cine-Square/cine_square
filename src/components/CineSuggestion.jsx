@@ -128,7 +128,7 @@ function CineSuggestion() {
         type="button"
         onClick={slidePrev}
         ref={prevRef}
-        className={`prev-btn`}
+        className="prev-btn"
       >
         <img src="../images/prev.png" alt="prev" />
       </button>
@@ -136,7 +136,7 @@ function CineSuggestion() {
         type="button"
         onClick={slideNext}
         ref={nextRef}
-        className={`next-btn`}
+        className="next-btn"
       >
         <img src="../images/next.png" alt="next" />
       </button>
