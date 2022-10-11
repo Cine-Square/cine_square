@@ -1,3 +1,5 @@
+@import '../styles/utils.scss';
+
 $border-color: #eee;
 
 .home-main {
@@ -116,7 +118,7 @@ $border-color: #eee;
       .prev-btn {
         top: 50%;
         margin-top: -20px;
-        left: -50px;
+        left: 50%;
         display: none;
       }
       .next-btn {
